@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>ATCG - UPH Biotech</title>
+<meta charset="UTF-8">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.json">
+<meta name="viewport" content="height=device-height, minimum-scale=0.1, user-scalable=yes">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<script src="quiz.js"></script>
+<script src="res/howler.core.min.js"></script>
+<script src="res/howler.min.js"></script>
+<script src="res/pixi.min.js"></script>
+<script src="res/pixi-legacy.min.js"></script>
+<script src="res/slider.js"></script>
+<style>    
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {margin:0;padding:0;height: 100%;}
+body {
+    margin:0;
+    padding:0; 
+    background-color: #000000; 
+    overflow:hidden;
+    height: 100%;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+input, select { 
+    opacity: 0.7;;
+    padding: 0px 10px; 
+    font-size: 12pt; 
+    font-weight: bold;
+    background-color: #09ffff; 
+    color: #000000;
+    border:#db32db solid 2px;
+    border-radius: 10px;;
+    width:150px;
+}
+.marquee {
+ height: 14px;	
+ position: relative;
+ overflow: hidden;
+}
+.marquee p {
+ position: absolute;
+ width: 2500px;
+ height: 100%;
+ margin: 0;
+ line-height: 14px;
+ text-align: center;
+ white-space: nowrap;
+ /* Starting position */
+ -moz-transform:translateX(100%);
+ -webkit-transform:translateX(100%);	
+ transform:translateX(100%);
+ /* Apply animation to this element */	
+ -moz-animation: scroll-left 60s linear infinite;
+ -webkit-animation: scroll-left 60s linear infinite;
+ animation: scroll-left 60s linear infinite;
+}
+/* Move it (define the animation) */
+@-moz-keyframes scroll-left {
+ 0%   { -moz-transform: translateX(100%); }
+ 100% { -moz-transform: translateX(-100%); }
+}
+@-webkit-keyframes scroll-left {
+ 0%   { -webkit-transform: translateX(100%); }
+ 100% { -webkit-transform: translateX(-100%); }
+}
+@keyframes scroll-left {
+ 0%   { 
+ -moz-transform: translateX(100%); /* Browser bug fix */
+ -webkit-transform: translateX(100%); /* Browser bug fix */
+ transform: translateX(100%); 		
+ }
+ 100% { 
+ -moz-transform: translateX(-100%); /* Browser bug fix */
+ -webkit-transform: translateX(-100%); /* Browser bug fix */
+ transform: translateX(-100%); 
+ }
+}
+.slides {
+    display:none;
+}
+.btn {
+    margin-top:10px;
+    padding: 50px 80px 0px 80px;
+    text-align: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    overflow: hidden;
+    border-radius: 15px;
+}
+#theme {
+    position: absolute;
+    right:80px;
+    bottom:50px;
+    border-radius: 0px;
+    font-size: 10pt;
+    font-family: Arial, Helvetica, sans-serif;
+}
+#theme select {
+    background-color: white;
+    width:100px;
+    font-size: 10pt;
+    font-family: Arial, Helvetica, sans-serif;
+}
+#btnstop {
+    width:90%;
+    visibility: hidden;
+}
+
+#quizpanel {
+    position: fixed;
+    margin-top: 30px;
+    margin-left: 40px;
+}
+
+#entryform {
+    width: 100%;
+    height: 180px;
+    overflow-y: auto;
+}
+#shield_info {
+    margin-top: -10px;
+    font-size: 18pt !important;
+}
+.shield {
+    width: 98px;
+    height: 100px;
+    background-image: url('res/shields.png');
+    background-repeat: no-repeat;
+    margin: 0px;
+    -webkit-transform: scale (0.8);
+    -moz-transform: scale (0.8);
+    -ms-transform: scale (0.8);
+    transform: scale(0.8);
+}
+.header {
+    padding-left: 60px;
+    padding-right: 60px;
+    text-align: left;
+    font-size: 16pt !important;
+}
+#shieldlist {
+    padding-top: 60px;
+    color: #fff;
+    text-align: center;
+}
+#list {
+    width:640px;
+    margin: 0 auto;
+}
+#winner {
+    display: none;
+    position:absolute;
+    margin-left: 50%;
+    top: 80px;
+    left: -225px;
+    width:450px;
+    height:300px;
+    background-image: url('res/winner.png');
+    background-repeat: no-repeat;
+    background-color: transparent;
+    background-size: 450px 300px;
+    border:5px solid darkgray;
+    border-radius: 5px;;
+}
+@media (min-height: 400px) {
+    .marquee {
+        height: 50px;	
+    }
+    .marquee p {
+        line-height: 50px;
+    }
+    #winner {
+        top: 125px;
+        left: -300px;
+        width:600px;
+        height:400px;
+        background-size: 600px 400px;
+    }
+    #list {
+        width:440px;
+    }
+    .shield {
+        width: 98px;
+        height: 100px;
+        background-image: url('res/shields.png');
+        background-repeat: no-repeat;
+        margin: 0px;
+        -webkit-transform: scale (1);
+        -moz-transform: scale (1);
+        -ms-transform: scale (1);
+        transform: scale(1);
+    }
+    #shield_info {
+        font-size: 20pt !important;
+    }
+    #entryform {
+        height: auto;
+    }
+    .header {
+        text-align: left;
+        font-size: 32pt !important;
+    }
+    input, select { 
+        opacity: 0.7;;
+        padding: 2px 10px; 
+        font-size: 16pt; 
+        font-weight: bold;
+        background-color: #09ffff; 
+        color: #000000;
+        border:#db32db solid 2px;
+        border-radius: 10px;;
+        width:200px;
+    }
+    .btn {
+        margin-top:20px;
+        padding: 60px 100px 0px 100px;
+        text-align: center;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        overflow: hidden;
+        border-radius: 15px;
+        background-color: black;
+    }
+    #btnstop {
+        width:50%;
+    }
+    #quizpanel {
+        position: fixed;
+        margin-top: 50px;
+        margin-left: 80px;
+    }
+}
+.border { border:2px solid yellow; }
+.col { display:inline-block; }
+.col_left { display:inline-block; text-align: left;}
+.slider__container {
+  background-color: #000000; 
+  position: fixed;
+  display: block;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  -webkit-transition: -webkit-transform 500ms ease-in-out;
+  transition: -webkit-transform 500ms ease-in-out;
+  -o-transition: transform 500ms ease-in-out;
+  transition: transform 500ms ease-in-out;
+}
+.slider__page {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+#intro {
+    background-color: #000000;
+    background-image: url('res/intro.png');
+    background-size: 640px 480px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#intromsg {
+    position:absolute;
+    left: 50%;
+    top: 50%;
+    margin-top: 70px;
+    margin-left: -210px;
+    opacity: 0.5;
+    font-size: 24px;
+    font-family: Arial, Helvetica, sans-serif;
+    color:white;
+    display:none;
+}
+#splash {
+    background-color: #000000;
+    background-image: url('res/splash.png');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#rules {
+    background-color: #000000;
+    background-image: url('res/form.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    overflow: hidden;
+}
+#form {
+    background-color: #000000;
+    background-image: url('res/form.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    overflow: hidden;
+}
+#arena {
+    background-color: #000000;
+    background-image: url('res/form.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    overflow: hidden;
+}
+#quiz {
+    background-color: #000000;
+    background-image: url('res/frame.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    overflow: hidden;
+}
+#qurl {
+    width: 90%;
+    height: 90%;
+}
+#qcontainer {
+    padding-left: 40px;
+    padding-top: 120px;
+    width: 100%;
+    height: 100%;
+}
+#qbanner {
+    position: fixed;
+    margin-top: -40px;
+    padding-left: 40px;
+    width: 88%;
+    height: 50px;
+    background-color: black;
+    color: gray;
+    font-weight: bold;
+    font-size: 16pt;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+.stop_on {
+    background-color: black;
+    background-image: url('res/stop_on.png');
+}
+.stop_off {
+    background-color: silver;
+    background-image: url('res/stop_off.png');
+}
+#status {
+    font-size:16pt;
+    font-family: Arial, Helvetica, sans-serif;
+    color: lime;
+}
+#playerform {
+    padding: 60px 100px 0px 100px;
+    color: #fff;
+    text-align: center;
+}
+#playerlist {
+    padding: 60px 100px 0px 100px;
+    color: #fff;
+    text-align: center;
+}
+.glow {
+    font-size: 18pt;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: white;
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #49ff18, 0 0 30px #49ff18, 0 0 40px #49ff18, 0 0 55px #49ff18, 0 0 75px #49ff18;
+}
+.glow2 {
+    font-size: 24pt;
+    padding-bottom: 5px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color:gold;
+    text-shadow: 0 0 3px orchid, 0 0 5px darkorchid, 0 0 10px darkorchid, 0 0 15px #d60a92, 0 0 25px #df23b6, 0 0 30px #db3cb9, 0 0 40px #d355ad, 0 0 60px #f88ed8    
+}
+.entry {
+    font-size: 18pt;
+    padding: 5px;
+}
+.player_info {
+    text-align: left;
+    vertical-align: top;;
+    background-color: grey;
+    display: inline-block;
+    width:300px;
+}
+.player_name {
+    text-align: left;
+    vertical-align: top;;
+    font-size: 24pt;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;    
+    word-wrap: none;
+}
+.player_location {
+    text-align: left;
+    vertical-align: top;;
+    font-size: 14pt;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;    
+    word-wrap: none;    
+}
+.avatar {
+    width: 42px;
+    height: 58px;
+    background-image: url('res/mavatar.png');
+    background-repeat: no-repeat;
+    margin: 0px;
+}
+.avatar0 { background-position: 0px 0px; }
+.avatar1 { background-position: -42px 0px;}
+.avatar2 { background-position: -84px 0px;}
+.avatar3 { background-position: -126px 0px;}
+.avatar4 { background-position: 0px -58px; }
+.avatar5 { background-position: -42px -58px;}
+.avatar6 { background-position: -84px -58px;}
+.avatar7 { background-position: -126px -58px;}
+.avatar8 { background-position: 0px -116px; }
+.avatar9 { background-position: -42px -116px;}
+.avatar10 { background-position: -84px -116px;}
+.avatar11 { background-position: -126px -116px;}
+
+.shield1 { background-position: 0px 0px; }
+.shield2 { background-position: -98px 0px; }
+.shield3 { background-position: -196px 0px; }
+.shield4 { background-position: -294px 0px; }
+.shield5 { background-position: 0px -100px; }
+.shield6 { background-position: -98px -100px; }
+.shield7 { background-position: -196px -100px; }
+.shield8 { background-position: -294px -100px; }
+.shield9 { background-position: 0px -200px; }
+.shield10 { background-position: -98px -200px; }
+.shield11 { background-position: -196px -200px; }
+.shield12 { background-position: -294px -200px; }
+
+.tcbtn {
+    width: 64px;
+    height: 64px;
+    background-image: url('res/tickcross.png');
+    background-repeat: no-repeat;
+    margin: 0px;
+    padding: 0px;
+    background-color: transparent;
+}
+.btnT1 { background-position: 0px 0px; }
+.btnT0 { background-position: 0px -64px; }
+.btnC1 { background-position: -67px 0px; }
+.btnC0 { background-position: -67px -64px; }
+
+#tick { visibility: hidden; }
+
+#progressBar {
+  width: 300px;
+  height: 14px;
+  background-color: darkgreen;
+  border:1px solid darkkhaki;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+#bar {
+    position:fixed;
+    width:300px;
+    height:14px;
+    border-radius: 5px;
+    clip: rect(0,0,14px,0);
+}
+#xxbar {
+    position:fixed;
+    margin-bottom:18px;
+    top:0;
+    left:0;
+    width:300px;
+    height:14px;
+    clip: rect(0,0,200px,0);
+}
+#xbar {
+    margin-bottom:18px;
+    width:300px;
+    height:14px;
+}
+#quitpanel {
+    width:100%;
+    height:100%;
+    padding-top: 200px;
+    display: none;
+}
+#quitmsg {
+    padding-bottom: 50px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 24pt;
+    color: white;
+    text-align: center;
+}
+#winnerlist {
+    margin: 0px;
+    padding: 0px;
+    width:100%;
+    height:100%;
+    text-align:center;
+    color:aqua;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 24pt;
+    padding-top: 80px;
+}
+.small {
+    font-size: 18pt;
+}
+#TGIF {
+    visibility: hidden;
+    position: absolute;
+    opacity: 0.7;
+    z-index:777;
+    bottom: 25px;
+    left: 50px;
+    right: 60px;
+    color:white;
+    font-family: bold;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 12pt;
+}
+</style>
+</head>    
+<body onselectstart="return false;" oncontextnmenu="return false;">
+    <div class="slides">
+        <section id="intro" onclick="startToPlay();">
+                <div id="intromsg">please CLICK HERE to start our journey ...</div>
+        </section>
+        <section id="splash" xonclick="showSlide('#rules');"></section>
+        <section id="rules">
+            <div id="shieldlist">
+                <div class="glow header" onclick="showSlide('#form');">Protection<hr></div>
+                <div id="list">
+                    <div>
+                    <div class="glow" id="shield_info">
+                        train and use these protections
+                    </div>
+                    <div class="col shield shield1" onmouseout="newInfo()" 
+                        onmouseover="newInfo('covered coughing or sneezing')"></div>
+                    <div class="col shield shield2" onmouseout="newInfo()" onmouseover="newInfo('avoid handshake')"></div>
+                    <div class="col shield shield3" onmouseout="newInfo()" onmouseover="newInfo('clean regular use items')"></div>
+                    <div class="col shield shield4" onmouseout="newInfo()" onmouseover="newInfo('stay at home, be safe outside')"></div>
+                    <div class="col shield shield5" onmouseout="newInfo()" onmouseover="newInfo('regular physical exercise')"></div>
+                    <div class="col shield shield6" onmouseout="newInfo()" onmouseover="newInfo('get covid vaccine')"></div>
+                    <div class="col shield shield12" onmouseout="newInfo()" onmouseover="newInfo('let\'s beat covid'); fxplay('ok2');"
+                        onclick="showSlide('#form');fxplay('ding1');"></div>
+                    <div class="col shield shield7" onmouseout="newInfo()" onmouseover="newInfo('avoid crowd')"></div>
+                    <div class="col shield shield8" onmouseout="newInfo()" onmouseover="newInfo('eat healthy food')"></div>
+                    <div class="col shield shield9" onmouseout="newInfo()" onmouseover="newInfo('wash your hands')"></div>
+                    <div class="col shield shield10" onmouseout="newInfo()" onmouseover="newInfo('keep your body clean')"></div>
+                    <div class="col shield shield11" onmouseout="newInfo()" onmouseover="newInfo('get enough good rest')"></div>
+                </div>
+            <!-- div>
+                    <button id="btnstop" class="btn stop_off" 
+                        onmouseover="newStyle(this, 'btn stop_on')"
+                        onmouseout="newStyle(this, 'btn stop_off')"
+                        onclick="mySlider.gotoSlide('#form');">
+                    </button>
+                </div -->
+            </div>
+        </div>
+        </section>
+        <section id="form">
+            <form onsubmit="return false;">
+                <div id="playerform">
+                    <div class="glow header">Players<hr></div>
+                    <div id="entryform">
+                        <div id="status">&nbsp;Please enter players' name and group</div>
+                    <div class="col_left">
+                        <div class="entry">
+                            <div class="col avatar avatar0"></div>
+                            <div class="col_left ">
+                                <input type="text" name="nama" autocomplete="off" placeholder="name" onblur="enableGo()"><br>
+                                <select name="origin" onblur="enableGo()">
+                                    <option value="">GROUP:</option>
+                                    <option selected>alpha</option>
+                                    <option>beta</option>
+                                    <option>delta</option>
+                                    <option>epsilon</option>
+                                    <option>gamma</option>
+                                    <option>kappa</option>
+                                    <option>lambda</option>
+                                    <option>mu</option>
+                                    <option>omicron</option>
+                                    <option>theta</option>
+                                    <option>zeta</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="entry">
+                            <div class="col avatar avatar1"></div>
+                            <div class="col_left ">
+                                <input type="text" name="nama" autocomplete="off" placeholder="name" onblur="enableGo()"><br>
+                                <select name="origin" onblur="enableGo()">
+                                    <option value="">GROUP:</option>
+                                    <option>alpha</option>
+                                    <option selected>beta</option>
+                                    <option>delta</option>
+                                    <option>epsilon</option>
+                                    <option>gamma</option>
+                                    <option>kappa</option>
+                                    <option>lambda</option>
+                                    <option>mu</option>
+                                    <option>omicron</option>
+                                    <option>theta</option>
+                                    <option>zeta</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="entry">
+                            <div class="col avatar avatar2"></div>
+                            <div class="col_left ">
+                                <input type="text" name="nama" autocomplete="off" placeholder="name" onblur="enableGo()"><br>
+                                <select name="origin" onblur="enableGo()">
+                                    <option value="">GROUP:</option>
+                                    <option>alpha</option>
+                                    <option>beta</option>
+                                    <option selected>delta</option>
+                                    <option>epsilon</option>
+                                    <option>gamma</option>
+                                    <option>kappa</option>
+                                    <option>lambda</option>
+                                    <option>mu</option>
+                                    <option>omicron</option>
+                                    <option>theta</option>
+                                    <option>zeta</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="entry">
+                            <div class="col avatar avatar3"></div>
+                            <div class="col_left ">
+                                <input type="text" name="nama" autocomplete="off" placeholder="name" onblur="enableGo()"><br>
+                                <select name="origin" onblur="enableGo()">
+                                    <option value="">GROUP:</option>
+                                    <option>alpha</option>
+                                    <option>beta</option>
+                                    <option>delta</option>
+                                    <option selected>epsilon</option>
+                                    <option>gamma</option>
+                                    <option>kappa</option>
+                                    <option>lambda</option>
+                                    <option>mu</option>
+                                    <option>omicron</option>
+                                    <option>theta</option>
+                                    <option>zeta</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>                    
+                    <div class="col_left">
+                        <div class="entry">
+                            <div class="col avatar avatar4"></div>
+                            <div class="col_left">
+                                <input type="text" name="nama" autocomplete="off" placeholder="name" onblur="enableGo()"><br>
+                                <select name="origin" onblur="enableGo()">
+                                    <option value="">GROUP:</option>
+                                    <option>alpha</option>
+                                    <option>beta</option>
+                                    <option>delta</option>
+                                    <option>epsilon</option>
+                                    <option selected>gamma</option>
+                                    <option>kappa</option>
+                                    <option>lambda</option>
+                                    <option>mu</option>
+                                    <option>omicron</option>
+                                    <option>theta</option>
+                                    <option>zeta</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="entry">
+                            <div class="col avatar avatar5"></div>
+                            <div class="col_left ">
+                                <input type="text" name="nama" autocomplete="off" placeholder="name" onblur="enableGo()"><br>
+                                <select name="origin" onblur="enableGo()">
+                                    <option value="">GROUP:</option>
+                                    <option>alpha</option>
+                                    <option>beta</option>
+                                    <option>delta</option>
+                                    <option>epsilon</option>
+                                    <option>gamma</option>
+                                    <option selected>kappa</option>
+                                    <option>lambda</option>
+                                    <option>mu</option>
+                                    <option>omicron</option>
+                                    <option>theta</option>
+                                    <option>zeta</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="entry">
+                            <div class="col avatar avatar6"></div>
+                                <div class="col_left ">
+                                <input type="text" name="nama" autocomplete="off" placeholder="name" onblur="enableGo()"><br>
+                                <select name="origin" onblur="enableGo()">
+                                    <option value="">GROUP:</option>
+                                    <option>alpha</option>
+                                    <option>beta</option>
+                                    <option>delta</option>
+                                    <option>epsilon</option>
+                                    <option>gamma</option>
+                                    <option>kappa</option>
+                                    <option selected>lambda</option>
+                                    <option>mu</option>
+                                    <option>omicron</option>
+                                    <option>theta</option>
+                                    <option>zeta</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="entry">
+                            <div class="col avatar avatar7"></div>
+                                <div class="col_left ">
+                                <input type="text" name="nama" autocomplete="off" placeholder="name" onblur="enableGo()"><br>
+                                <select name="origin" onblur="enableGo()">
+                                    <option value="">GROUP:</option>
+                                    <option>alpha</option>
+                                    <option>beta</option>
+                                    <option>delta</option>
+                                    <option>epsilon</option>
+                                    <option>gamma</option>
+                                    <option>kappa</option>
+                                    <option>lambda</option>
+                                    <option>mu</option>
+                                    <option selected>omicron</option>
+                                    <option>theta</option>
+                                    <option>zeta</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div id="theme">
+						<div>
+							<button id="btnstop" class="btn stop_off" 
+								onmouseover="newStyle(this, 'btn stop_on')"
+								onmouseout="newStyle(this, 'btn stop_off')"
+								onclick="startGame();fxplay('ding1');">
+							</button>
+						</div>
+                        FX: &nbsp;<select name="theme">
+                            <option selected>tense</option>
+                            <option>relax</option>
+                            <option>fun</option>
+                        </select>    
+                    </div>
+
+                </div>
+            </form>
+        </section>
+        <section id="game"></section>
+        <section id="quiz">
+            <div id="winner" onclick="showEndCredits()">
+                <div id="winnerlist">
+                    <div class="glow2">
+                        <br>&nbsp;<br>
+                        <img src="res/winner.gif">
+                        <br>and the WINNERS are ...
+                    </div>
+                </div>
+            </div>
+            <div id="quitpanel">
+                <div id="quitmsg">
+                    Do you want to end<br>this game now ?
+                <br>
+                <br>
+                <div class="col tcbtn btnT0"
+                    onmouseover="newStyle(this, 'col tcbtn btnT1')"
+                    onmouseout="newStyle(this, 'col tcbtn btnT0')"
+                    onclick="donePlaying();">
+                </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="col tcbtn btnC0"
+                    onmouseover="newStyle(this, 'col tcbtn btnC1')"
+                    onmouseout="newStyle(this, 'col tcbtn btnC0')"
+                    onclick="keepPlaying();">
+                </div>
+                </div>
+            </div>
+            <div id="quizpanel">
+                <div id="tick" class="col tcbtn btnT0"
+                    onmouseover="newStyle(this, 'col tcbtn btnT1')"
+                    onmouseout="newStyle(this, 'col tcbtn btnT0')"
+                    onclick="quizOK();">
+                </div>
+                <div id="cross" class="col tcbtn btnC0"
+                    onmouseover="newStyle(this, 'col tcbtn btnC1')"
+                    onmouseout="newStyle(this, 'col tcbtn btnC0')"
+                    onclick="quizNOK();;">
+                </div>
+                <div id="progressBar"><img id="bar" src="res/timer.png"></div>
+            </div>
+            <div id="qcontainer">
+                <iframe id="qurl" src="about:blank" frameborder="0" allowfullscreen="false" 
+                    mozallowfullscreen="false" webkitallowfullscreen="false"></iframe>            
+                <div id="qbanner">(C) 2022 - UPH BIOTECH</div>
+            </div>
+            <div id="TGIF"class="marquee"><p>https://uph.edu - UNIVERSITAS PELITA HARAPAN - To be a Christ-centered university founded upon and promoting true knowledge, faith in Christ and godly character aiming to develop God-fearing, competent and professional future leaders through excellent, holistic and transformational education - </p>
+            </div>
+        </section>
+      </div>  
+<script src="main.js"></script>
+</body>
+</html>
