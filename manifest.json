@@ -1,19 +1,25 @@
 {
-    "short_name": "ATCG",
-    "name": "Attack Covid Game",
+    "short_name": "ATCV",
+    "name": "Attack Covid Variant Game",
     "icons": [
       {
         "src": "res/atcg-icon-192.png",
         "sizes": "192x192",
-        "type": "image/png"
+        "type": "image/png",
+		"purpose": "any maskable"
       },
       {
         "src": "res/atcg-icon-512.png",
         "sizes": "512x512",
-        "type": "image/png"
+        "type": "image/png",
+		"purpose": "any maskable"
       }
     ],
     "start_url": "index.html",
     "display": "fullscreen",
-    "orientation": "landscape"
+    "orientation": "landscape",
+	"lang": "en-US",
+	"display": "standalone",
+	"background_color": "black",
+	"theme_color": "black"	
   }

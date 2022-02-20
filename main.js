@@ -785,17 +785,17 @@ function rollingATCG(delta)
         }
         if (rollingCounter == 0) {
             lastDice = getDice();
-			if ((lastDice == 0) || (lastDice == 2)) {
+			while ((lastDice == 0) || (lastDice == 2)) {
 				var d = new Date();
 				var now = d.getTime();
-				if ((now - lastFrozen) < 600) {
+				if ((now - lastFrozen) < 600000) { // milliseconds
 					// do not repeat, "Try Again" / "Stay at Home"
 					// within 10 minutes
-					while ((lastDice == 0) || (lastDice == 2)) {
-						lastDice = getDice();
-					}
+					lastDice = getDice();
+					continue;
 				}
 				lastFrozen = now;
+				break;
 			}
 		} else {
             lastDice = Math.floor(Math.random() * 6);
@@ -1261,18 +1261,20 @@ function startGame()
         seatNames.push(nama);
         seatOrigins.push(origin);
     }
-
-    if (seats.length < 1)
-    {
-        console.log('*** no players');
-        fxloop('fail1');
-    }
-    else
-    {
-        showSlide('#game');
-        nextState = shufflePlayers;
-        fxloop('roll1');
-    }
+	fxstop();
+	setTimeout(function() {
+		if (seats.length < 1)
+		{
+			console.log('*** no players');
+			fxloop('fail1');
+		}
+		else
+		{
+			showSlide('#game');
+			nextState = shufflePlayers;
+			fxloop('roll1');
+		}
+	}, 1000);
 }
 
 function toggleFullScreen() {
@@ -1280,8 +1282,11 @@ function toggleFullScreen() {
     if (window.matchMedia('(display-mode: fullscreen)').matches == true)
         return;
 
-    if(navigator.standalone == true)
+	var isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+	if (navigator.standalone || isStandalone) {
         return;
+	}
+
 
     var doc = window.document;
     var docEl = doc.documentElement;
@@ -1429,24 +1434,24 @@ function setup()
     fx = new Howl({
         src: ['res/fx/atcg-fx.mp3'],
         sprite: {
-            bug: [50, 700, true],
+            bug: [50, 600, true],
             ok: [1100, 600, false],
-            ding1: [2180, 120, false],
-            ding2: [2590, 900, false],
+            ding1: [2180, 100, false],
+            ding2: [2590, 800, false],
             roll1: [4100, 900, true],
             ok1: [5700, 2340, false],
             fail1: [8340, 1700, false],
             fail2: [10355, 1210, false],
             ok2: [11810, 1990, false],
             countdown: [14690, 3316, false],
-            stayathome: [18200, 1524, false],
+            stayathome: [18200, 1400, false],
             tryagain: [19834, 1083, false],
-            adenine: [21441, 786, false],
+            adenine: [21441, 700, false],
             guanine: [22533, 710, false],
             thymine: [23710, 710, false],
             cytosine: [25092, 990, false],
             letsdoit: [26390, 1200, false],
-            jump: [27650, 1000, false]
+            jump: [27650, 850, false]
           },        
         html5: true,
         buffer:true,
@@ -1559,7 +1564,13 @@ function startToPlay()
 
 
 function initATCG() {
-	//PIXI.utils.skipHello();
+	if ('serviceWorker' in navigator) {
+		navigator.serviceWorker.register('worker.js').then(function(req) {
+		if (navigator.onLine)
+			req.update();
+		});
+	}  	
+	PIXI.utils.skipHello();
 	
     mySlider = slider('.slides');
     barCounter = quizTimeoutInSeconds?quizTimeoutInSeconds:30; 
