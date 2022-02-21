@@ -15,7 +15,7 @@
 		"purpose": "any maskable"
       }
     ],
-    "start_url": "index.html",
+    "start_url": "/ATCV/index.html",
     "display": "fullscreen",
     "orientation": "landscape",
 	"lang": "en-US",

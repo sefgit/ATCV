@@ -1569,16 +1569,15 @@ function initATCG() {
 		if (navigator.onLine)
 			req.update();
 		});
-	}  	
-	PIXI.utils.skipHello();
-	
+		PIXI.utils.skipHello();
+	}  		
     mySlider = slider('.slides');
     barCounter = quizTimeoutInSeconds?quizTimeoutInSeconds:30; 
     urls = [];
-    urls.push(shuffle(quizA));''
-    urls.push(shuffle(quizT));''
-    urls.push(shuffle(quizC));''
-    urls.push(shuffle(quizG));''
+    urls.push(shuffle(quizA));
+    urls.push(shuffle(quizT));
+    urls.push(shuffle(quizC));
+    urls.push(shuffle(quizG));
 
     app = new PIXI.Application({
         autoResize: true,

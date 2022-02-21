@@ -1,6 +1,5 @@
 var cacheName = 'ATCV-pwa';
 var filesToCache = [
-	'/',
 	'index.html',
 	'res/atcg-icon-192.png',
 	'res/intro.png',
