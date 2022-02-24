@@ -1525,9 +1525,9 @@ function startToPlay()
     if (introTimerID > 0)
         clearInterval(introTimerID);
     introTimerID = 0;
-    introMsgDiv.innerHTML = '<i>p r e s e n t s</i>';
-    introMsgDiv.style.marginTop =  "150px";
-    introMsgDiv.style.marginLeft =  "-76px";
+    introMsgDiv.innerHTML = '<center><i>p r e s e n t s</i></center>';
+    //introMsgDiv.style.marginTop =  "150px";
+    //introMsgDiv.style.marginLeft =  "-76px";
     introMsgDiv.style.opacity = 1.0;
 
     bgMusic = new Howl({
@@ -1559,7 +1559,7 @@ function startToPlay()
             showSlide('#rules');
             preload();
         }, 5000);
-    }, 3000);
+    }, 1000);
  }
 
 
@@ -1600,8 +1600,8 @@ function initATCG() {
             introMsgDiv.style.display='block';
             introTimerID = setInterval(introMsg, 200);
         }    
-    }, 3000);
+    }, 1000);
 }
 
-document.oncontextmenu = new Function("return false;");
+//document.oncontextmenu = new Function("return false;");
 document.onload = initATCG();

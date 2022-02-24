@@ -113,8 +113,8 @@ input, select {
 }
 #theme {
     position: absolute;
-    right:80px;
-    bottom:50px;
+    right:10px;
+    bottom:20px;
     border-radius: 0px;
     font-size: 10pt;
     font-family: Arial, Helvetica, sans-serif;
@@ -138,23 +138,11 @@ input, select {
 
 #entryform {
     width: 100%;
-    height: 180px;
+    height: 80%;
     overflow-y: auto;
 }
 #shield_info {
     margin-top: -10px;
-    font-size: 18pt !important;
-}
-.shield {
-    width: 98px;
-    height: 100px;
-    background-image: url('res/shields.png');
-    background-repeat: no-repeat;
-    margin: 0px;
-    -webkit-transform: scale (0.8);
-    -moz-transform: scale (0.8);
-    -ms-transform: scale (0.8);
-    transform: scale(0.8);
 }
 .header {
     padding-left: 60px;
@@ -166,10 +154,6 @@ input, select {
     padding-top: 60px;
     color: #fff;
     text-align: center;
-}
-#list {
-    width:640px;
-    margin: 0 auto;
 }
 #winner {
     display: none;
@@ -185,74 +169,6 @@ input, select {
     background-size: 450px 300px;
     border:5px solid darkgray;
     border-radius: 5px;;
-}
-@media (min-height: 400px) {
-    .marquee {
-        height: 50px;	
-    }
-    .marquee p {
-        line-height: 50px;
-    }
-    #winner {
-        top: 125px;
-        left: -300px;
-        width:600px;
-        height:400px;
-        background-size: 600px 400px;
-    }
-    #list {
-        width:440px;
-    }
-    .shield {
-        width: 98px;
-        height: 100px;
-        background-image: url('res/shields.png');
-        background-repeat: no-repeat;
-        margin: 0px;
-        -webkit-transform: scale (1);
-        -moz-transform: scale (1);
-        -ms-transform: scale (1);
-        transform: scale(1);
-    }
-    #shield_info {
-        font-size: 20pt !important;
-    }
-    #entryform {
-        height: auto;
-    }
-    .header {
-        text-align: left;
-        font-size: 32pt !important;
-    }
-    input, select { 
-        opacity: 0.7;;
-        padding: 2px 10px; 
-        font-size: 16pt; 
-        font-weight: bold;
-        background-color: #09ffff; 
-        color: #000000;
-        border:#db32db solid 2px;
-        border-radius: 10px;;
-        width:200px;
-    }
-    .btn {
-        margin-top:20px;
-        padding: 60px 100px 0px 100px;
-        text-align: center;
-        background-repeat: no-repeat;
-        background-size: 100% 100%;
-        overflow: hidden;
-        border-radius: 15px;
-        background-color: black;
-    }
-    #btnstop {
-        width:50%;
-    }
-    #quizpanel {
-        position: fixed;
-        margin-top: 50px;
-        margin-left: 80px;
-    }
 }
 .border { border:2px solid yellow; }
 .col { display:inline-block; }
@@ -278,25 +194,29 @@ input, select {
   height: 100%;
 }
 #intro {
+	width:100%;
+	height:100%;
     background-color: #000000;
     background-image: url('res/intro.png');
-    background-size: 640px 480px;
+    background-size: cover;
+	background-size: contain;	
     background-repeat: no-repeat;
     background-position: center;
 }
 #intromsg {
+	width:100%;
     position:absolute;
-    left: 50%;
-    top: 50%;
-    margin-top: 70px;
-    margin-left: -210px;
+    bottom: 40px;
     opacity: 0.5;
-    font-size: 24px;
+    font-size: 20px;
     font-family: Arial, Helvetica, sans-serif;
     color:white;
     display:none;
+    overflow-wrap: break-word;
 }
 #splash {
+    background-size: cover;
+	background-size: contain;	
     background-color: #000000;
     background-image: url('res/splash.png');
     background-repeat: no-repeat;
@@ -362,7 +282,7 @@ input, select {
     background-image: url('res/stop_off.png');
 }
 #status {
-    font-size:16pt;
+    font-size:14pt;
     font-family: Arial, Helvetica, sans-serif;
     color: lime;
 }
@@ -377,13 +297,14 @@ input, select {
     text-align: center;
 }
 .glow {
-    font-size: 18pt;
+    font-size: 12pt ! important;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     color: white;
+	white-space: nowrap;
     text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #49ff18, 0 0 30px #49ff18, 0 0 40px #49ff18, 0 0 55px #49ff18, 0 0 75px #49ff18;
 }
 .glow2 {
-    font-size: 24pt;
+    font-size: 14pt ! important;
     padding-bottom: 5px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     color:gold;
@@ -434,18 +355,29 @@ input, select {
 .avatar10 { background-position: -84px -116px;}
 .avatar11 { background-position: -126px -116px;}
 
+#list {
+    width:240px;
+    margin: 0 auto;
+}
+.shield {
+    width: 50px;
+    height: 50px;
+    background-image: url('res/minishields.png');
+    background-repeat: no-repeat;
+    margin: 0px;
+}
 .shield1 { background-position: 0px 0px; }
-.shield2 { background-position: -98px 0px; }
-.shield3 { background-position: -196px 0px; }
-.shield4 { background-position: -294px 0px; }
-.shield5 { background-position: 0px -100px; }
-.shield6 { background-position: -98px -100px; }
-.shield7 { background-position: -196px -100px; }
-.shield8 { background-position: -294px -100px; }
-.shield9 { background-position: 0px -200px; }
-.shield10 { background-position: -98px -200px; }
-.shield11 { background-position: -196px -200px; }
-.shield12 { background-position: -294px -200px; }
+.shield2 { background-position: -50px 0px; }
+.shield3 { background-position: -100px 0px; }
+.shield4 { background-position: -150px 0px; }
+.shield5 { background-position: 0px -50px; }
+.shield6 { background-position: -50px -50px; }
+.shield7 { background-position: -100px -50px; }
+.shield8 { background-position: -150px -50px; }
+.shield9 { background-position: 0px -100px; }
+.shield10 { background-position: -50px -100px; }
+.shield11 { background-position: -100px -100px; }
+.shield12 { background-position: -150px -100px; }
 
 .tcbtn {
     width: 64px;
@@ -534,12 +466,51 @@ input, select {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 12pt;
 }
+
+
+/* */
+@media only screen and (min-width: 700px) 
+{
+.glow {
+    font-size: 16pt ! important;
+}
+.glow2 {
+    font-size: 18pt ! important;
+}
+#list {
+    width:400px;
+    margin: 0 auto;
+}
+.shield {
+    width: 95px;
+    height: 95px;
+	margin: 0px;
+    background-image: url('res/shields.png');
+    background-repeat: no-repeat;
+}
+.shield1 { background-position: 0px 0px; }
+.shield2 { background-position: -98px 0px; }
+.shield3 { background-position: -196px 0px; }
+.shield4 { background-position: -294px 0px; }
+.shield5 { background-position: 0px -100px; }
+.shield6 { background-position: -98px -100px; }
+.shield7 { background-position: -196px -100px; }
+.shield8 { background-position: -294px -100px; }
+.shield9 { background-position: 0px -200px; }
+.shield10 { background-position: -98px -200px; }
+.shield11 { background-position: -196px -200px; }
+.shield12 { background-position: -294px -200px; }
+}
+
+
+
+
 </style>
 </head>    
-<body onselectstart="return false;" oncontextnmenu="return false;">
+<body xonselectstart="return false;" xoncontextnmenu="return false;">
     <div class="slides">
         <section id="intro" onclick="startToPlay();">
-                <div id="intromsg">please CLICK HERE to start our journey ...</div>
+                <div id="intromsg"><center>CLICK HERE to start ...</center></div>
         </section>
         <section id="splash" xonclick="showSlide('#rules');"></section>
         <section id="rules">
