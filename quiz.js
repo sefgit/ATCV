@@ -80,6 +80,6 @@ const intros = [
     "https://docs.google.com/presentation/d/e/2PACX-1vQ5f8fhzrxR0EjPJWdB6OU1VTUTtHd0lvk8zs8GBrvW7xIwi1kDCNKYAIxW5YgQU4uWVIXujfkEM78n/embed?start=false&loop=false&delayms=3000"
     ];
 
-const credits = "https://docs.google.com/presentation/d/e/2PACX-1vR-COo_xGCbs6gPqmo_yGKC2ypjIfXtSNceeFKhTMQmtqNrm8t5gwfLB_5nSVNv_fRHxVshgLL8bC7E/embed?start=true&loop=true&delayms=2000";
+const credits = "https://docs.google.com/presentation/d/e/2PACX-1vRRn0MyltNLSuOI8ly-GhH8VQFNbK9-n1BjU08Pg_e3RQLwtcmbIeKc805CfN8bKA/pub?start=true&loop=true&delayms=3000";
 
 
