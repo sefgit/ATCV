@@ -1603,5 +1603,5 @@ function initATCG() {
     }, 1000);
 }
 
-//document.oncontextmenu = new Function("return false;");
+document.oncontextmenu = new Function("return false;");
 document.onload = initATCG();
