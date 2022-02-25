@@ -595,6 +595,8 @@ function startQuizTimer()
     barTimerId = setInterval(updateQuizTimer, 1000);
 	var el = document.getElementById('progressBar');
 	el.style.display = 'inline-block';	
+	el = document.getElementById('frontframe');
+	el.style.display = 'none';
 }
 
 ///
@@ -649,6 +651,8 @@ function showQuiz()
     var x = Math.floor(Math.random()*intros.length);
     showSlide('#quiz');    
     setTimeout(function() {
+		var el = document.getElementById('frontframe');
+		el.style.display = 'block';
         if (e) e.src = intros[x];
         var id = Math.floor(Math.random()*2);
         if (nextSteps > 3)
