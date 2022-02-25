@@ -56,6 +56,7 @@ input, select {
     border-radius: 10px;;
     width:150px;
 }
+.right { float: right;}
 .marquee {
  height: 14px;	
  position: relative;
@@ -126,14 +127,16 @@ input, select {
     font-family: Arial, Helvetica, sans-serif;
 }
 #btnstop {
-    width:90%;
+	margin-left: 20px;
+    width:60%;
     visibility: hidden;
 }
 
 #quizpanel {
-    position: fixed;
-    margin-top: 30px;
-    margin-left: 40px;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+	width: 100%;
 }
 
 #entryform {
@@ -358,6 +361,7 @@ input, select {
     background-image: url('res/minishields.png');
     background-repeat: no-repeat;
     margin: 0px;
+	border-radius: 10px;
 }
 .shield1 { background-position: 0px 0px; }
 .shield2 { background-position: -50px 0px; }
@@ -377,24 +381,29 @@ input, select {
     height: 64px;
     background-image: url('res/tickcross.png');
     background-repeat: no-repeat;
-    margin: 0px;
+    margin: 0 30px;
     padding: 0px;
     background-color: transparent;
 }
 .btnT1 { background-position: 0px 0px; }
 .btnT0 { background-position: 0px -64px; }
-.btnC1 { background-position: -67px 0px; }
-.btnC0 { background-position: -67px -64px; }
+.btnC1 { background-position: -67px 0px;}
+.btnC0 { background-position: -67px -64px;}
 
 #tick { visibility: hidden; }
 
 #progressBar {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  margin-left: -150px;
   width: 300px;
   height: 14px;
   background-color: darkgreen;
   border:1px solid darkkhaki;
   border-radius: 5px;
-  display: inline-block;
+  display: none;
+  pointer-events: none; 
 }
 
 #bar {
@@ -403,20 +412,6 @@ input, select {
     height:14px;
     border-radius: 5px;
     clip: rect(0,0,14px,0);
-}
-#xxbar {
-    position:fixed;
-    margin-bottom:18px;
-    top:0;
-    left:0;
-    width:300px;
-    height:14px;
-    clip: rect(0,0,200px,0);
-}
-#xbar {
-    margin-bottom:18px;
-    width:300px;
-    height:14px;
 }
 #quitpanel {
     width:100%;
@@ -491,6 +486,7 @@ input, select {
 	margin: 0px;
     background-image: url('res/shields.png');
     background-repeat: no-repeat;
+	border-radius: 20px;
 }
 .shield1 { background-position: 0px 0px; }
 .shield2 { background-position: -98px 0px; }
@@ -771,28 +767,28 @@ input, select {
                 </div>
                 </div>
             </div>
-            <div id="quizpanel">
-                <div id="tick" class="col tcbtn btnT0"
-                    onmouseover="newStyle(this, 'col tcbtn btnT1')"
-                    onmouseout="newStyle(this, 'col tcbtn btnT0')"
-                    onclick="quizOK();">
-                </div>
-                <div id="cross" class="col tcbtn btnC0"
-                    onmouseover="newStyle(this, 'col tcbtn btnC1')"
-                    onmouseout="newStyle(this, 'col tcbtn btnC0')"
-                    onclick="quizNOK();;">
-                </div>
-                <div id="progressBar"><img id="bar" src="res/timer.png"></div>
-            </div>
             <div id="qcontainer">
                 <iframe id="qurl" src="about:blank" frameborder="0" allowfullscreen="false" 
                     mozallowfullscreen="false" webkitallowfullscreen="false"></iframe>            
                 <div id="qbanner">(C) 2022 - UPH BIOTECH</div>
+				<div id="quizpanel">
+					<div id="tick" class="col tcbtn btnT0"
+						onmouseover="newStyle(this, 'col tcbtn btnT1')"
+						onmouseout="newStyle(this, 'col tcbtn btnT0')"
+						onclick="quizOK();">
+					</div>
+					<div id="cross" class="col tcbtn btnC0 right"
+						onmouseover="newStyle(this, 'col tcbtn btnC1 right')"
+						onmouseout="newStyle(this, 'col tcbtn btnC0 right')"
+						onclick="quizNOK();;">
+					</div>
+				</div>
             </div>
             <div id="TGIF"class="marquee"><p>https://uph.edu - UNIVERSITAS PELITA HARAPAN - To be a Christ-centered university founded upon and promoting true knowledge, faith in Christ and godly character aiming to develop God-fearing, competent and professional future leaders through excellent, holistic and transformational education - </p>
             </div>
         </section>
       </div>  
+	<div id="progressBar"><img id="bar" src="res/timer.png"></div>
 <script src="main.js"></script>
 </body>
 </html>

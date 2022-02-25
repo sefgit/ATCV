@@ -517,6 +517,8 @@ function quizOK()
     var id = 'ok' + n.toString();
     fxplay(id);
     setTimeout(function() {
+		var el = document.getElementById('progressBar');
+		el.style.display = 'none';
         bgMusic.fade(0,0.1,2000);
         gotoNextCity();
     },1000);    
@@ -534,6 +536,8 @@ function quizNOK()
     nextSteps = 0;
     showSlide('#game');
     setTimeout(function() {
+		var el = document.getElementById('progressBar');
+		el.style.display = 'none';
         bgMusic.fade(0,0.1,2000);
         fxplay('stayathome');
         stayAtHomeBtn.interactive = true;
@@ -589,6 +593,8 @@ function startQuizTimer()
     if (skipped)
         return;
     barTimerId = setInterval(updateQuizTimer, 1000);
+	var el = document.getElementById('progressBar');
+	el.style.display = 'inline-block';	
 }
 
 ///
