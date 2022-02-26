@@ -512,13 +512,13 @@ function quizOK()
         return;
     skipped = true;
     resetTimer();
+	var el = document.getElementById('progressBar');
+	el.style.display = 'none';
     showSlide('#game');
     var n = Math.floor(Math.random()*2 + 1);
     var id = 'ok' + n.toString();
     fxplay(id);
     setTimeout(function() {
-		var el = document.getElementById('progressBar');
-		el.style.display = 'none';
         bgMusic.fade(0,0.1,2000);
         gotoNextCity();
     },1000);    
@@ -530,14 +530,14 @@ function quizNOK()
         return;
     skipped = true;
     resetTimer();
+	var el = document.getElementById('progressBar');
+	el.style.display = 'none';
     var n = Math.floor(Math.random()*2 + 1);
     var id = 'fail' + n.toString();
     fxplay(id);
     nextSteps = 0;
     showSlide('#game');
     setTimeout(function() {
-		var el = document.getElementById('progressBar');
-		el.style.display = 'none';
         bgMusic.fade(0,0.1,2000);
         fxplay('stayathome');
         stayAtHomeBtn.interactive = true;
