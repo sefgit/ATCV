@@ -841,8 +841,10 @@ function endCredits()
         bgMusic.stop();
     fxstop();
     fxtimerstop();
-    if (endMusic)
+    if (endMusic) {
         endMusic.play();
+		endMusic.fade(1.0, 0.5, 4000);
+	}
     var e = document.getElementById('qurl');
     if (e)
         e.src = "about:blank";
@@ -868,7 +870,7 @@ function endCredits()
     setTimeout(function() {
         var e = document.getElementById('TGIF');
         e.style.visibility = 'visible';
-    }, 10000);
+    }, 8000);
 }
 
 var endCreditEnabled = false;
@@ -1453,7 +1455,7 @@ function setup()
             fail1: [8340, 1700, false],
             fail2: [10355, 1210, false],
             ok2: [11810, 1990, false],
-            countdown: [14690, 3316, false],
+            countdown: [14690, 3430, false],
             stayathome: [18200, 1400, false],
             tryagain: [19834, 1083, false],
             adenine: [21441, 700, false],
